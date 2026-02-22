@@ -1,90 +1,77 @@
-# Quantum-Inspired Compression and Distillation of Large Language Models for Edge Intelligence
+Quantum-Inspired Optimisation for Transformer Pruning Under Edge Constraints
+Overview
 
-## 📌 Overview
+This repository contains the implementation for the paper:
 
-This repository contains the implementation and evaluation code for the research paper:
+“Quantum-Inspired Compression and Distillation of Large Language Models for Edge Intelligence”
 
-**"Quantum-Inspired Compression and Distillation of Large Language Models for Edge Intelligence"**
+The project explores a probabilistic, multi-objective optimisation framework for guiding pruning configurations in transformer-based language models under simulated edge-device constraints.
 
-The project explores a probabilistic optimisation-guided structured pruning approach combined with knowledge distillation to enable efficient deployment of Large Language Models (LLMs) under simulated edge-device constraints.
+Unlike fixed magnitude-based pruning, this framework formulates pruning configuration selection as a constrained optimisation problem that jointly considers:
 
----
+Predictive accuracy
 
-## 🎯 Objective
+Inference latency
 
-Large Language Models (LLMs) achieve strong performance but are computationally expensive for edge deployment.
+Model size
 
-This work investigates whether a quantum-inspired probabilistic optimisation strategy can:
+The optimisation process is inspired by quantum-inspired q-bit representation and rotation-based probability updates.
 
-- Preserve classification accuracy
-- Maintain competitive inference latency
-- Enable structured compression under CPU-based edge simulation
+Key Features
 
----
+Quantum-inspired probabilistic component selection
 
-## 🧠 Methodology
+Multi-objective fitness function (accuracy + latency + memory)
 
-The framework consists of:
+Rotation-based parameter update mechanism
 
-1. Pretrained Teacher Model (DistilBERT)
-2. Structured L1 Pruning
-3. Quantum-inspired probabilistic component selection
-4. Knowledge distillation
-5. CPU-based latency evaluation
+Iterative global search of pruning configurations
 
-Compression is formulated as a constrained optimisation problem balancing:
+CPU-based edge simulation
 
-- Accuracy degradation
-- Inference latency
+Confusion matrix generation
 
----
+Latency comparison analysis
 
-## 📊 Experimental Setup
+Model and Dataset
 
-- Model: `distilbert-base-uncased-finetuned-sst-2-english`
-- Dataset: SST-2 (GLUE Benchmark)
-- Hardware: CPU-only (edge simulation)
-- Metrics:
-  - Accuracy
-  - Precision
-  - Recall
-  - F1-score
-  - Per-sample inference latency
+Model: distilbert-base-uncased-finetuned-sst-2-english
 
----
+Dataset: SST-2 (GLUE benchmark)
 
-## 📈 Results (SST-2 Validation Set)
+Task: Binary sentiment classification
 
-| Model | Accuracy (%) | Per-Sample Latency (ms) |
-|--------|--------------|--------------------------|
-| Teacher (DistilBERT) | 91.06 | 191.59 |
-| L1 Pruned | 90.48 | 182.52 |
-| Proposed Quantum-Inspired | 90.37 | 184.63 |
+Evaluation: CPU-based inference latency simulation
 
-### Proposed Model Metrics
+Method Summary
 
-- Accuracy: 90.37%
-- Precision: 90.36%
-- Recall: 90.77%
-- F1-Score: 90.56%
-- Per-Sample Latency: 184.63 ms
+Each linear module within the transformer architecture is assigned a probabilistic pruning intensity controlled by a quantum-inspired angle parameter (θ).
 
----
+At each optimisation iteration:
 
-## 🔍 Confusion Matrix (Proposed Model)
+A pruning configuration is sampled using sin²(θ) probability mapping.
 
-True Negative: 385  
-False Positive: 43  
-False Negative: 41  
-True Positive: 403  
+The model is evaluated.
 
-Balanced classification performance is maintained after compression.
+A multi-objective fitness score is computed.
 
----
+Rotation-based updates adjust θ values.
 
-## 🚀 How to Run (Google Colab Compatible)
+The best configuration is retained.
 
-### 1️⃣ Install Dependencies
+The optimisation does not physically remove parameters but applies weight masking via L1 pruning.
 
-```bash
+Results (Current Implementation)
+Model	Accuracy	Latency (ms)
+Teacher (DistilBERT)	91.06%	178.64
+L1 Pruned	90.48%	188.90
+Quantum-Inspired	91.40%	189.14
+
+The optimisation-guided configuration achieves competitive predictive performance under simulated edge conditions.
+
+Installation
 pip install -r requirements.txt
+Run the Experiment
+python main.py
+
+Or execute in Google Colab.
